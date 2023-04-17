@@ -1,0 +1,39 @@
+# version: '2.17.2'
+
+# services:
+#   mongodb_container:
+#     image: mongo
+#     environment:
+#       DB_USERNAME: root
+#       DB_PASSWORD: rootpassword
+#     ports:
+#       - 27017:27017
+#     volumes:
+#       - mongodb_data_container:/data/db
+
+# volumes:
+#   mongodb_data_container:
+
+
+# services:
+#       back:
+#         container_name: backMarta
+#         restart: always
+#         build: .
+#         ports: 4000:3000
+#         links:
+#             - mongoMarta
+
+#       mongoMarta:
+#         container_name: dataMongoMarta
+#         image: mongo
+#         ports: 
+#            - "27018:27017"
+
+version: '3'
+
+services:
+  myproject:
+    container_name: 'martawebback'
+    image: 'ericerac/martawebback'
+    restart: unless-stopped

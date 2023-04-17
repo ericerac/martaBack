@@ -1,0 +1,35 @@
+const mongoose = require("mongoose");
+
+const image = require("./img.js");
+
+
+
+const IniciSchema = mongoose.Schema({
+ 
+  name: { type: String, required: false, default: null, 
+     } ,
+     title_1: { type: String, required: false,default: null },
+     color_title_1: { type: String, required: false,default: null },
+     subTitle_1: { type: String, required: false,default: null },
+     color_subTitle_1: { type: String, required: false,default: null },
+     title_2: { type: String, required: false,default: null },
+     color_title_2: { type: String, required: false,default: null },
+     subTitle_2: { type: String, required: false,default: null },
+     color_subTitle_2: { type: String, required: false,default: null },
+     phrase: { type: String, required: false,default: null },
+     lang: { type: String, required: false,default: "cat" },
+     imageUrl: { type: String,default: null }, 
+    //  imageUrl: { type: String,default: null }, 
+     pN:{ type: Boolean, default: true },
+     image:[
+{
+  type: mongoose.Schema.Types.ObjectId,
+    ref:image,
+}
+     ]
+},
+{
+  timestamps:true,
+  });
+
+module.exports = mongoose.model("Page", IniciSchema);
