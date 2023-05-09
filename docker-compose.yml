@@ -35,5 +35,9 @@ version: '3'
 services:
   myproject:
     container_name: 'martawebback'
-    image: 'ericerac/martawebback'
+    image: 'ericerac/mar-back-03'
     restart: unless-stopped
+    ports: 
+      - 22:3000
+    
+    
