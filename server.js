@@ -2,7 +2,7 @@
 
 	
 
-const http = require('http'); // import package http de node
+ const http = require('http'); // import package http de node
 
 const app = require ('./app') // importe le fichier app.js
 
@@ -10,7 +10,9 @@ app.set ('port',process.env.PORT || 3000 ) // informe express du port qui sera u
 
 const server = http.createServer(app); // app est la fonction du fichier app.js qui répondra a la requête
 
-server.listen(process.env.PORT || 3000, '0.0.0.0'); // écoute les requête
+server.listen(process.env.PORT || 3000, ()=>{
+    console.log("listen port 3000");
+}); // écoute les requête
 
 // const mongoose = require("mongoose");
 // const db = require("./models");

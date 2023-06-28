@@ -26,7 +26,7 @@ module.exports = function pageSelected(name) {
     case (name = "bio"):
       return bio;
 
-    case (name = "calendar"):
+    case (name = "cal"):
       return Calendar;
 
     case (name = "post"):

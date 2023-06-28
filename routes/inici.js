@@ -3,6 +3,7 @@ const router = express.Router();
 const IniciControl = require("../controllers/inici");
 const CalControl = require("../controllers/inici");
 const adminControl = require("../controllers/adminControl");
+const astro = require("../controllers/astro");
 const auth = require("../middleWare/auth");
 const resetPassword = require("../controllers/resetPassword");
 const multer = require("../middleWare/multer-config");
@@ -13,7 +14,8 @@ router.post("/coconexion", adminControl.login);
 router.post("/signup", adminControl.signup);
 router.post("/del/admin", auth, adminControl.delAdmin);
 
-router.post("/create", auth, multer, IniciControl.createPage);
+router.post("/create",  multer, IniciControl.createPage);
+// auth, ne pas oublier de remettre
 
 router.post("/cal/create", auth, multer, IniciControl.createPage);
 
@@ -31,4 +33,5 @@ router.get("/img", IniciControl.getImg);
 router.get("/nav", IniciControl.getNav);
 router.get("/ver/AdminAuth", auth, adminControl.getAdminAuth);
 
+// router.get("/astro",astro.astroCity)
 module.exports = router;

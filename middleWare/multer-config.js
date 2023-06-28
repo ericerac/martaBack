@@ -61,11 +61,12 @@ const MIME_TYPES = {
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    console.log("MULTER REQ FILE", file);
+    // console.log("MULTER REQ FILE", file);
+    
     callback(null, "./assets/images");
   },
   filename: (req, file, callback) => {
-    console.log("MULTER FILE", file);
+    // console.log("MULTER FILE", file);
     let name = file.originalname.split(" ").join("_");
     name = name.split(".")[0];
     const extension = MIME_TYPES[file.mimetype];
@@ -80,8 +81,8 @@ module.exports = multer({
   storage: storage,
   // imageUpload:imageUpload(),
   fileFilter: (req, file, cb) => {
-     console.log("REQ MULTER FILTER",req);
-    console.log("MIMETYPE FILE", file.mimetype);
+    //  console.log("REQ MULTER FILTER",req);
+    // console.log("MIMETYPE FILE", file.mimetype);
     if (
       file.mimetype == "image/png" ||
       file.mimetype == "image/jpeg" ||

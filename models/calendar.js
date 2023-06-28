@@ -4,7 +4,7 @@ const IniciSchema = mongoose.Schema({
   
 
 
-     name:{ type: String, required: false, default: `calendar` },
+     name:{ type: String, required: false, default: `cal` },
      show_name:{ type: String, required: false,default: null },
      info_top: { type: String, required: false,default: null },
      day: { type: String, required: false,default: null },
