@@ -4,7 +4,7 @@ const IniciSchema = mongoose.Schema({
   
 
 
-  name: { type: String, required: false, default: "post", 
+  name: { type: String, required: false, default: "blog", 
      } ,
      title_1: { type: String, required: false, default: null },
      color_title_1: { type: String, required: false,default: null },

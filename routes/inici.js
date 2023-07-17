@@ -14,13 +14,14 @@ router.post("/coconexion", adminControl.login);
 router.post("/signup", adminControl.signup);
 router.post("/del/admin", auth, adminControl.delAdmin);
 
-router.post("/create",  multer, IniciControl.createPage);
+router.post("/create",auth,  multer, IniciControl.createPage);
 // auth, ne pas oublier de remettre
 
 router.post("/cal/create", auth, multer, IniciControl.createPage);
 
 router.put("/del", auth, IniciControl.deletePage);
 router.put("/update", auth, multer, IniciControl.modifyPage);
+router.put("/update/fieldPost",  multer, IniciControl.updatePostField);
 
 router.post("/forgot-password", resetPassword.forgotPass);
 router.get("/reset-password/:id/:token", resetPassword.resetPass);

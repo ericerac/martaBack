@@ -1,16 +1,15 @@
 const fs = require("fs");
-
 const jwt = require("jsonwebtoken");
+
 const Page = require("../models/inici");
 const Calendar = require("../models/calendar");
 const Galerie = require("../models/galerie");
-// const Admin = require("../models/admin");
-const pageSelected = require("./js/page")
 
-
-const bio = require("../models/bio"); 
+const pageSelected = require("./js/page");
 const Navbar = require("../models/navbar");
 const img = require("../models/img");
+
+const bio = require("../models/bio");
 const Bernadette = require("../models/bernadette");
 const Image = require("../models/image");
 const kakos = require("../models/kakos");
@@ -28,16 +27,14 @@ const db = mongoose.connection;
 //-----------------CREATE PAGES vers 1 ----------------------------
 
 exports.createPage = (req, res, next) => {
-   console.log("REQ.BODY", req.body);
+  console.log("REQ.BODY", req.body);
   // console.log("REQ.PROTOCOLE", `${req.get("host")}`);
   // console.log("PARAMS CREATE PAGE", req.query.page);
   // console.log("PARAMS CREATE BODY", req.body);
 
-  
-  let callPage = pageSelected (req.query.page)
-  
+  let callPage = pageSelected(req.query.page);
+
   if (req.file) {
-    
     const page = new callPage({
       ...req.body,
 
@@ -82,23 +79,16 @@ exports.createPage = (req, res, next) => {
 //----------------------****** GET PAGE ********----------------------
 
 exports.getPage = (req, res, next) => {
-   console.log("REQ QUERY NAME GET-PAGE", req.query.name);
-
+  console.log("REQ QUERY NAME GET-PAGE", req.query.name);
   let lang = req.query.lang;
-//  console.log("LANG QUERY", lang);
-   let mode = pageSelected (req.query.name)
-   if(mode == "cal"){
-    mode = "calendar"
-   }
-  // console.log("RETURN MODE",mode);
-  // console.log("LANG AND MODE",lang,mode);
+  //  console.log("LANG QUERY", lang);
+  let mode = pageSelected(req.query.name);
+  console.log("RETURN MODE 1------>", mode);
   mode
-    .find(
-      {
-        name: req.query.name,
-        lang: lang,
-      }
-    )
+    .find({
+      name: req.query.name,
+      lang: lang,
+    }).select(['-postGeoloc'])
     .then((page) => {
       res.status(200).json(page);
       // console.log("RESPONSE GET BACK 1----->", page);
@@ -119,7 +109,6 @@ exports.getImg = (req, res, next) => {
   img
     .find({
       page: req.query.name,
-      
     })
     .then((page) => {
       res.status(200).json(page);
@@ -160,7 +149,7 @@ exports.modifyPage = async (req, res, next) => {
   // console.log("REQ FILE UPDATE", req.file);
   // console.log("REQ QUERY UPDATE NAME", req.query.name);
 
-  let callPage = pageSelected (req.query.name)
+  let callPage = pageSelected(req.query.name);
 
   const page = req.file
     ? {
@@ -187,14 +176,13 @@ exports.modifyPage = async (req, res, next) => {
       .exec((err, data) => {
         // console.log("DATA findOne", data);
         if (data.imageUrl) {
-          delFileName(data.imageUrl)
+          delFileName(data.imageUrl);
         }
         function reportError() {
           if (data == null) {
           } else if (!data.imageUrl) {
           } else {
             // console.log("data.imageUrl To Delete----->", data.imageUrl);
-
             // efface l'ancienne image
           }
         }
@@ -237,6 +225,52 @@ exports.modifyPage = async (req, res, next) => {
     });
 };
 
+exports.updatePostField = async (req, res, next) => {
+  // console.log("REQ BODY  ", typeof req.body.read);
+  // console.log("REQ BODY ", req.body.read);
+
+  // console.log("REQ FILE UPDATE", req.file);
+  // console.log("REQ QUERY UPDATE NAME", req.query.name);
+  let doc;
+  doc = await Post.findById(req.body.id);
+  // console.log("POST OPENED ", doc.postOpened);
+  // console.log("POST READ ", doc.postRead);
+   console.log("POST LOC ", req.body.loc);
+let loc = req.body.loc
+  if (req.body.opened === "true") {
+    console.log("POST OPENED != FALSE");
+    var result = await doc.updateOne(
+      { 
+        $inc: { postOpened: +1 },
+        $push: { postGeoloc: loc },
+       });
+  
+  } else {
+  }
+  if (req.body.read  === "true") {
+    console.log("POST READ != FALSE");
+    var result = await doc.updateOne(
+      { 
+        $inc: { postRead: +1 } ,
+      }
+      );
+  
+  } else {
+  }
+  if (result) {
+    res.status(200).json({ message: "UPDATE POST OPENED" });
+    // res.json({ message: "UPDATE POST OPENED" })
+  } else {
+    res.status(404).json({ message: "UPDATE OPENED FAILED" });
+  }
+ 
+  
+
+  // console.log("RESULT",result)
+};
+
+//---------------DELETE----------------------
+
 let delFileName = async (data) => {
   const filename = data.split("/images/")[1];
   // console.log("filename DELETE FUNCTION", filename);
@@ -246,21 +280,19 @@ let delFileName = async (data) => {
       throw err;
     } else {
       // console.log(`Fichier : ${filename} éffaçé`);
-      return true
+      return true;
     }
   });
 };
 
-//---------------DELETE----------------------
 
 exports.deletePage = (req, res, next) => {
   // console.log("DELETE PAGE ID", req.body.id);
   // console.log("REQ QUERY NAME DEL CARD", req.query.name);
 
-  
-  let callPage = pageSelected (req.query.name)
-  if (callPage == "cal"){
-    callPage = "calendar"
+  let callPage = pageSelected(req.query.name);
+  if (callPage == "cal") {
+    callPage = "calendar";
   }
 
   callPage
@@ -303,7 +335,5 @@ exports.deletePage = (req, res, next) => {
       }
     });
 };
-
-
 
 //---------------------------------------------------------

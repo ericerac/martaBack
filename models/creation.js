@@ -23,7 +23,6 @@ const IniciSchema = mongoose.Schema({
      color_subTitle_2: { type: String, required: false,default: null },
      phrase: { type: String, required: false,default: null },
      lang: { type: String, required: false,default: "cat" },
-     
      imageUrl: { type: String,default: null }, 
     //  imageUrl: { type: String,default: null }, 
      pN:{ type: Boolean, default: true }
