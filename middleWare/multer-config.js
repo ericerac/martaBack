@@ -27,6 +27,7 @@
 
 const multer = require("multer");
 const express = require("express");
+const sharp = require("sharp")
 // const sharp = require('sharp');
 // const resiz = sharp();
 const router = express.Router();
@@ -39,49 +40,49 @@ const MIME_TYPES = {
   "image/webp": "webp",
 };
 
-// const ResImg = resiz(req.file.buffer).resize(250,250).toFile();
-// console.log("FILE RESIZED", ResImg);
 
-// const sharp = require('sharp');
 
-// const imageUpload = async (req) => {
 
-//     // const formattedFileName = req.file.originalname.split(' ').join('-'); //replace space with -
-//     try {
-//         await sharp(req.file.buffer)
-//         .resize({with:300, height:300}) //max width = 800 or height = 600
-//         .toFile('./uploads/'+ formattedFileName); //upload to /upload folder
-
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
-
-// module.exports = imageUpload;
-
-const storage = multer.diskStorage({
-  destination: (req, file, callback) => {
-    // console.log("MULTER REQ FILE", file);
+// const storage = multer.diskStorage({
+//   destination: (req, file, callback) => {
+//      console.log("MULTER REQ FILE", file);
     
-    callback(null, "./assets/images");
-  },
-  filename: (req, file, callback) => {
-    // console.log("MULTER FILE", file);
-    let name = file.originalname.split(" ").join("_");
-    name = name.split(".")[0];
-    const extension = MIME_TYPES[file.mimetype];
-    console.log("MULTER IMG NAME", name);
-    callback(null, name + Date.now() + "." + extension);
-  },
-});
+//     callback(null, "./assets/images");
+//   },
+//   filename: (req, file, callback) => {
+//     // console.log("MULTER FILE", file);
+//     let name = file.originalname.split(" ").join("_");
+//     name = name.split(".")[0];
+//     const extension = MIME_TYPES[file.mimetype];
+//     console.log("MULTER IMG NAME", name);
+//     callback(null, name + Date.now() + "." + extension);
+//   },
+ 
+// });
+//***** */ necessary to resize file sharp ******// 
+
+ const storage = multer.memoryStorage();
+
+// ********************************************* //
+// const resizer =  ((req, file) => {
+//   console.log("REQ RESIZER FUNCTION",req);
+//   // const path = `./assets/images/${req.file.originalname}`;
+
+//   // // toFile() method stores the image on disk
+//   //   sharp(req.file.buffer).resize(300, 300).toFile(path);
+  
+// })
+    
 
 const maxSize = 1 * 1024 * 1024;
 
 module.exports = multer({
   storage: storage,
+    
+  // resizeImg:(req.filePath, req.filename),
   // imageUpload:imageUpload(),
   fileFilter: (req, file, cb) => {
-    //  console.log("REQ MULTER FILTER",req);
+    console.log("REQ MULTER FILTER",file);
     // console.log("MIMETYPE FILE", file.mimetype);
     if (
       file.mimetype == "image/png" ||
@@ -99,4 +100,5 @@ module.exports = multer({
   limits: {
     fileSize: maxSize,
   },
+  
 }).single("image");

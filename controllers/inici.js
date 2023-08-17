@@ -35,6 +35,7 @@ exports.createPage = (req, res, next) => {
   let callPage = pageSelected(req.query.page);
 
   if (req.file) {
+    console.log("REQ FILE CONTROLLER",req.file);
     const page = new callPage({
       ...req.body,
 
@@ -79,18 +80,26 @@ exports.createPage = (req, res, next) => {
 //----------------------****** GET PAGE ********----------------------
 
 exports.getPage = (req, res, next) => {
+  const limit = 4
   console.log("REQ QUERY NAME GET-PAGE", req.query.name);
   let lang = req.query.lang;
   //  console.log("LANG QUERY", lang);
   let mode = pageSelected(req.query.name);
+  const sort = { createdAt: -1}
+
   console.log("RETURN MODE 1------>", mode);
   mode
     .find({
       name: req.query.name,
       lang: lang,
-    }).select(['-postGeoloc'])
+    })
+    .select(['-postGeoloc'])
+    // .select(['-postGeoloc']).sort(sort).limit(limit)
     .then((page) => {
-      res.status(200).json(page);
+      
+        
+        res.status(200).json(page.reverse());
+    
       // console.log("RESPONSE GET BACK 1----->", page);
     })
     .catch((error) =>
@@ -99,6 +108,85 @@ exports.getPage = (req, res, next) => {
       })
     );
 };
+//----------------------****** GET ALL PAGE DATA SPECIFIC FIELD ********----------------------
+
+exports.getAllPageData = (req, res, next) => {
+  
+  console.log("REQ QUERY NAME GET-PAGE", req.query.name);
+  let lang = req.query.lang;
+ 
+  let mode = pageSelected(req.query.name);
+  
+  console.log("RETURN MODE 1------>", mode);
+  mode
+    .find({
+      name: req.query.name,
+      lang: lang,
+    })
+    .then((page) => {
+
+        res.status(200).json(page.reverse());
+    
+      // console.log("RESPONSE GET BACK 1----->", page);
+    })
+    .catch((error) =>
+      res.status(404).json({
+        message: "error",
+      })
+    );
+};
+
+//----------------------****** GET SPECIFIC FIELD ********----------------------
+exports.getOnefield = (req, res, next) => {
+  
+  console.log("REQ QUERY NAME GET-PAGE", req.query.name);
+  let lang = req.query.lang;
+  let field = req.query.field
+  let mode = pageSelected(req.query.name);
+  
+  // console.log("RETURN MODE 1------>", mode);
+  mode
+    .find({
+      name: req.query.name,
+      lang: lang,
+    }).select(field) // select a specific field
+    .then((page) => {
+        res.status(200).json(page.reverse());
+      // console.log("RESPONSE GET BACK 1----->", page);
+    })
+    .catch((error) =>
+      res.status(404).json({
+        message: "error",
+      })
+    );
+};
+
+// exports.getPage = (req, res, next) => {
+
+//   console.log("REQ QUERY NAME GET-PAGE", req.query.name);
+//   let lang = req.query.lang;
+//   //  console.log("LANG QUERY", lang);
+//   let mode = pageSelected(req.query.name);
+  
+//   console.log("RETURN MODE 1------>", mode);
+//   mode
+//     .find({
+//       name: req.query.name,
+//       lang: lang,
+//     }).select(['-postGeoloc'])
+//     .then((page) => {
+      
+        
+//         res.status(200).json(page);
+    
+//       // console.log("RESPONSE GET BACK 1----->", page);
+//     })
+//     .catch((error) =>
+//       res.status(404).json({
+//         message: "error",
+//       })
+//     );
+// };
 
 //----------------------****** GET IMG ********----------------------
 
