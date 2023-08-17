@@ -18,26 +18,26 @@ router.post("/coconexion", adminControl.login);
 router.post("/signup", adminControl.signup);
 router.post("/del/admin", auth, adminControl.delAdmin);
 
-// router.post("/create",auth,  multer, IniciControl.createPage);
+ router.post("/create",auth,  multer, IniciControl.createPage);
 
-  // router.post("/create",  multer, IniciControl.createPage);
+//   router.post("/create", multer, IniciControl.createPage); // test
 
 
 // **************************************************************************** //
 
 // ****** resize and stock work but doesn`t reuturn req.file.filename to controller ********+ //
 
-router.post('/create', multer, async (req, res, next) => {
-    // req.file includes the buffer
-    // path: where to store resized photo
+// router.post('/create', multer, async (req, res, next) => {
+//     // req.file includes the buffer
+//     // path: where to store resized photo
       
-    console.log("REQ FILE ROUTER", req.file);
-    const path = `./assets/images/${req.file.originalname}`;
+//     // console.log("REQ FILE ROUTER", req.file);
+//     // const path = `./assets/images/${req.file.originalname}`;
 
-    // toFile() method stores the image on disk
-    await sharp(req.file.buffer).resize(300, 300).toFile(path);
-    next();
-},IniciControl.createPage);
+//     // // toFile() method stores the image on disk
+//     // await sharp(req.file.buffer).resize(300, 300).toFile(path);
+//     // next();
+// },IniciControl.createPage);
 
 // **************************************************************************** //
 

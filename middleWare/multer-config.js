@@ -43,35 +43,28 @@ const MIME_TYPES = {
 
 
 
-// const storage = multer.diskStorage({
-//   destination: (req, file, callback) => {
-//      console.log("MULTER REQ FILE", file);
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+     console.log("MULTER REQ FILE", file);
     
-//     callback(null, "./assets/images");
-//   },
-//   filename: (req, file, callback) => {
-//     // console.log("MULTER FILE", file);
-//     let name = file.originalname.split(" ").join("_");
-//     name = name.split(".")[0];
-//     const extension = MIME_TYPES[file.mimetype];
-//     console.log("MULTER IMG NAME", name);
-//     callback(null, name + Date.now() + "." + extension);
-//   },
+    callback(null, "./assets/images");
+  },
+  filename: (req, file, callback) => {
+    // console.log("MULTER FILE", file);
+    let name = file.originalname.split(" ").join("_");
+    name = name.split(".")[0];
+    const extension = MIME_TYPES[file.mimetype];
+    console.log("MULTER IMG NAME", name);
+    callback(null, name + Date.now() + "." + extension);
+  },
  
-// });
+});
+
 //***** */ necessary to resize file sharp ******// 
-
- const storage = multer.memoryStorage();
-
+// const storage = multer.memoryStorage();
 // ********************************************* //
-// const resizer =  ((req, file) => {
-//   console.log("REQ RESIZER FUNCTION",req);
-//   // const path = `./assets/images/${req.file.originalname}`;
 
-//   // // toFile() method stores the image on disk
-//   //   sharp(req.file.buffer).resize(300, 300).toFile(path);
-  
-// })
+
     
 
 const maxSize = 1 * 1024 * 1024;
@@ -79,8 +72,7 @@ const maxSize = 1 * 1024 * 1024;
 module.exports = multer({
   storage: storage,
     
-  // resizeImg:(req.filePath, req.filename),
-  // imageUpload:imageUpload(),
+  
   fileFilter: (req, file, cb) => {
     console.log("REQ MULTER FILTER",file);
     // console.log("MIMETYPE FILE", file.mimetype);
