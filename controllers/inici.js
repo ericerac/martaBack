@@ -98,7 +98,8 @@ exports.getPage = (req, res, next) => {
     .then((page) => {
       
         
-        res.status(200).json(page.reverse());
+        // res.status(200).json(page.reverse());
+        res.status(200).json(page);
     
       // console.log("RESPONSE GET BACK 1----->", page);
     })
